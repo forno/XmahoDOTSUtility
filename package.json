@@ -1,0 +1,21 @@
+{
+  "name": "link.xmaho.dotsutility",
+  "version": "0.0.1",
+  "displayName": "x.maho DOTS Utility",
+  "description": "Utility Assets for DOTS",
+  "unity": "2019.4",
+  "dependencies": {
+    "com.unity.entities": "0.7.0-preview.19",
+    "com.unity.physics": "0.2.5-preview.1"
+  },
+  "keywords": [
+    "dots",
+    "entities",
+    "ecs"
+  ],
+  "author": {
+    "name": "FORNO",
+    "email": "forno@xmaho.link",
+    "url": "https://github.com/forno"
+  }
+}
