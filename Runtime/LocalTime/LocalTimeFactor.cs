@@ -26,32 +26,8 @@ using Unity.Entities;
 namespace Xmaho
 {
     [GenerateAuthoringComponent]
-    public struct LocalTime : IComponentData
+    public struct LocalTimeFactor : IComponentData
     {
         public float Value;
-    }
-
-    [UpdateInGroup(typeof(InitializationSystemGroup))]
-    [UpdateAfter(typeof(UpdateWorldTimeSystem))]
-    public class LocalTimeSystem : SystemBase
-    {
-        protected override void OnUpdate()
-        {
-            var deltaTime = Time.DeltaTime;
-            Entities
-                .WithEntityQueryOptions(EntityQueryOptions.IncludeDisabled)
-                .WithNone<LocalTimeFactor>()
-                .ForEach((ref LocalTime time) =>
-                {
-                    time.Value += deltaTime;
-                }).ScheduleParallel();
-
-            Entities
-                .WithEntityQueryOptions(EntityQueryOptions.IncludeDisabled)
-                .ForEach((ref LocalTime time, in LocalTimeFactor factor) =>
-                {
-                    time.Value += deltaTime * factor.Value;
-                }).ScheduleParallel();
-        }
     }
 }

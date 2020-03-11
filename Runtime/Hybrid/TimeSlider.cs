@@ -8,10 +8,10 @@ namespace Xmaho
     public class TimeSlider : MonoBehaviour
     {
         public Slider slider;
-        private LocalTimeSystem localTimeSystem;
         private float initDeltaTime;
         private EntityManager manager;
         private EntityQuery query;
+        private LocalTimeFactor cache;
 
         void Start()
         {
@@ -22,19 +22,19 @@ namespace Xmaho
                     Destroy(this);
                 }
             }
-            localTimeSystem = World.DefaultGameObjectInjectionWorld.GetExistingSystem<LocalTimeSystem>();
             initDeltaTime = Time.fixedDeltaTime;
             manager = World.DefaultGameObjectInjectionWorld.EntityManager;
-            query = manager.CreateEntityQuery(ComponentType.ReadOnly<LocalTime>());
+            query = manager.CreateEntityQuery(typeof(LocalTimeFactor));
+            cache = new LocalTimeFactor();
         }
 
         public void UpdateTimeFactor()
         {
-            var manager = World.DefaultGameObjectInjectionWorld.EntityManager;
-            if (slider.value < 0) {
-                manager.AddComponent<IsBackToTheFuture>(query);
-            } else {
-                manager.RemoveComponent<IsBackToTheFuture>(query);
+            cache.Value = slider.value < 0 ? -1 : 1;
+            using (var entities = query.ToEntityArray(Unity.Collections.Allocator.TempJob)) {
+                foreach (var entitiy in  entities) {
+                    manager.SetComponentData(entitiy, cache);
+                }
             }
             Time.timeScale = abs(slider.value);
             Time.fixedDeltaTime = initDeltaTime * Time.timeScale;
