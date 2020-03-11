@@ -41,23 +41,21 @@ namespace Xmaho
         protected override void OnUpdate()
         {
             var deltaTime = Time.DeltaTime;
-            var job0 = Entities
+            Entities
                 .WithEntityQueryOptions(EntityQueryOptions.IncludeDisabled)
                 .WithNone<IsBackToTheFuture>()
                 .ForEach((ref LocalTime time) =>
                 {
                     time.Value += deltaTime;
-                }).ScheduleParallel(Dependency);
+                }).ScheduleParallel();
 
-            var job1 = Entities
+            Entities
                 .WithEntityQueryOptions(EntityQueryOptions.IncludeDisabled)
                 .WithAll<IsBackToTheFuture>()
                 .ForEach((ref LocalTime time) =>
                 {
                     time.Value -= deltaTime;
-                }).ScheduleParallel(Dependency);
-
-            Dependency = JobHandle.CombineDependencies(job0, job1);
+                }).ScheduleParallel();
         }
     }
 }
