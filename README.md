@@ -1,6 +1,8 @@
 # XmahoDOTSUtility
 FORNO's Unity DOTS utility library
 
+[![openupm](https://img.shields.io/npm/v/link.xmaho.dotsutility?label=openupm&registry_uri=https://package.openupm.com)](https://openupm.com/packages/link.xmaho.dotsutility/)
+
 ## Installation
 ### Unity 2019 or later
 - Open Package Manager window from Window menu
